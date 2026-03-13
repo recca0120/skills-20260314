@@ -94,10 +94,10 @@ gh repo create skills-20260314 --public --source=. --remote=origin --push
 **怎麼做：**
 在 Claude Code session 裡依序執行：
 ```
-幫我建一個 Hono 的 skill，上網查最新的最佳實踐
-幫我建一個 Drizzle ORM 的 skill，上網查最新的最佳實踐
-幫我建一個 React + Vite 的 skill，專注在 hooks 和 component 設計
-幫我建一個 Hono RPC 的 skill，包含前後端型別共享的最佳實踐
+在建 skill 之前，先去 Hono 官網和 GitHub 查最新版本、breaking changes、推薦用法，然後再建 skill
+在建 skill 之前，先去 Drizzle ORM 官網和 GitHub 查最新版本、breaking changes、推薦用法，然後再建 skill
+在建 skill 之前，先去 React 和 Vite 官網查最新版本、推薦用法，專注在 hooks 和 component 設計，然後再建 skill
+在建 skill 之前，先去 Hono RPC 官網和 GitHub 查最新版本、前後端型別共享的推薦用法，然後再建 skill
 ```
 
 **結果：** 待執行
