@@ -1,10 +1,10 @@
-import Database from 'better-sqlite3'
-import { drizzle } from 'drizzle-orm/better-sqlite3'
-import { migrate } from 'drizzle-orm/better-sqlite3/migrator'
+import { createClient } from '@libsql/client'
+import { drizzle } from 'drizzle-orm/libsql'
+import { migrate } from 'drizzle-orm/libsql/migrator'
 
-const sqlite = new Database('todos.db')
-const db = drizzle(sqlite)
+const client = createClient({ url: 'file:todos.db' })
+const db = drizzle(client)
 
-migrate(db, { migrationsFolder: './drizzle' })
+await migrate(db, { migrationsFolder: './drizzle' })
 console.log('Migration done!')
-sqlite.close()
+client.close()
