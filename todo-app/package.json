@@ -2,8 +2,11 @@
   "name": "todo-app",
   "private": true,
   "scripts": {
+    "dev": "pnpm run dev:server & pnpm run dev:client",
     "dev:server": "pnpm --filter todo-server dev",
     "dev:client": "pnpm --filter todo-client dev",
-    "setup": "pnpm install && pnpm --filter todo-server db:generate && pnpm --filter todo-server db:migrate"
+    "db:generate": "pnpm --filter todo-server db:generate",
+    "db:migrate": "pnpm --filter todo-server db:migrate",
+    "setup": "pnpm install && pnpm db:generate && pnpm db:migrate"
   }
 }
