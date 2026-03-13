@@ -79,7 +79,9 @@ gh repo create skills-20260314 --public --source=. --remote=origin --push
 你建議用什麼技術棧？
 ```
 
-**結果：** 待確認（此步驟尚未執行）
+**結果：** 確認技術棧為 **Hono + Bun + React + Vite + Hono RPC + Drizzle ORM + SQLite**
+
+補充決策：Claude Code 原本建議用 Bun 內建 SQLite 即可，但因為簡報 Slide 12 明確列出 Drizzle，為了與簡報一致，強制加入 Drizzle ORM。
 
 ---
 
@@ -90,14 +92,15 @@ gh repo create skills-20260314 --public --source=. --remote=origin --push
 **為什麼：** 讓 Claude Code 在開發過程中自動套用各技術的最新最佳實踐
 
 **怎麼做：**
-在 Claude Code session 裡依序執行，例如：
+在 Claude Code session 裡依序執行：
 ```
 幫我建一個 Hono 的 skill，上網查最新的最佳實踐
-幫我建一個 Drizzle ORM 的 skill
-幫我建一個 React 的 skill，專注在 hooks 和 component 設計
+幫我建一個 Drizzle ORM 的 skill，上網查最新的最佳實踐
+幫我建一個 React + Vite 的 skill，專注在 hooks 和 component 設計
+幫我建一個 Hono RPC 的 skill，包含前後端型別共享的最佳實踐
 ```
 
-**結果：** 待執行（需先完成 Step 4 確認技術選型）
+**結果：** 待執行
 
 ---
 
