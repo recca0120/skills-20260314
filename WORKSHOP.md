@@ -58,9 +58,11 @@ gh repo create skills-20260314 --public --source=. --remote=origin --push
 
 **怎麼做：**
 ```
-幫我建一個 Hono + Node.js + React + Vite + Hono RPC + Drizzle + SQLite 的 Todo App，
+不要上網查任何資料，用你現有的知識幫我建一個 Hono + Node.js + React + Vite + Hono RPC + Drizzle + SQLite 的 Todo App，
 功能：列出 todos、新增 todo、完成 / 刪除 todo
 ```
+
+> **為什麼這樣下指令：** 模擬「沒有 skill、沒有即時資訊」的最差情況。AI 的訓練資料有截止日，不上網查就會用舊版 API 或過時的寫法，正好呼應簡報 Slide 4 的核心問題。
 
 **結果：** 待執行
 
