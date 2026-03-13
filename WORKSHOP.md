@@ -100,7 +100,7 @@ gh repo create skills-20260314 --public --source=. --remote=origin --push
 在建 skill 之前，先去 Hono RPC 官網和 GitHub 查最新版本、前後端型別共享的推薦用法，然後再建 skill
 ```
 
-**結果：** 待執行
+**結果：** 四個 skill 建立完成並移至專案 `.claude/skills/`，透過 git 共享給參與者
 
 ---
 
