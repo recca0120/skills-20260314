@@ -1,0 +1,11 @@
+{
+  "name": "todo-app",
+  "private": true,
+  "scripts": {
+    "dev": "pnpm --parallel -r dev",
+    "dev:server": "pnpm --filter server dev",
+    "dev:client": "pnpm --filter client dev",
+    "db:push": "pnpm --filter server db:push",
+    "db:studio": "pnpm --filter server db:studio"
+  }
+}
