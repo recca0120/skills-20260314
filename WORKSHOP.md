@@ -79,9 +79,11 @@ gh repo create skills-20260314 --public --source=. --remote=origin --push
 你建議用什麼技術棧？
 ```
 
-**結果：** 確認技術棧為 **Hono + Bun + React + Vite + Hono RPC + Drizzle ORM + SQLite**
+**結果：** 確認技術棧為 **Hono + Node.js + pnpm + React + Vite + Hono RPC + Drizzle ORM + SQLite**
 
-補充決策：Claude Code 原本建議用 Bun 內建 SQLite 即可，但因為簡報 Slide 12 明確列出 Drizzle，為了與簡報一致，強制加入 Drizzle ORM。
+補充決策：
+- Claude Code 原本建議用 Bun runtime，後來改為 Node.js + pnpm，環境相容性更廣，參與者不需要額外安裝 Bun
+- Claude Code 原本建議用 Bun 內建 SQLite 即可，但因為簡報 Slide 12 明確列出 Drizzle，為了與簡報一致，強制加入 Drizzle ORM
 
 ---
 
