@@ -117,9 +117,12 @@ gh repo create skills-20260314 --public --source=. --remote=origin --push
 - 新增 todo
 - 完成 / 刪除 todo
 
-**怎麼做：** 待規劃（依 Step 4 技術選型決定）
+**怎麼做：**
+```bash
+cd todo-app && pnpm dev
+```
 
-**結果：** 待執行
+**結果：** Todo App 建立完成，三個功能（列出、新增、完成/刪除）全部驗證 OK
 
 ---
 
