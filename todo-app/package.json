@@ -1,0 +1,12 @@
+{
+  "name": "todo-app",
+  "private": true,
+  "scripts": {
+    "setup": "pnpm install && pnpm --filter todo-server db:push",
+    "dev": "concurrently \"pnpm --filter todo-server dev\" \"pnpm --filter todo-client dev\"",
+    "build": "pnpm --filter todo-server build && pnpm --filter todo-client build"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.0"
+  }
+}
