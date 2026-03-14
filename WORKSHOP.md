@@ -11,13 +11,13 @@
 
 | Branch | 用途 |
 |---|---|
-| `prepare/skill-creator` | 事先建好的 skill 備案，live coding 時間不夠可直接複製使用 |
+| `prepare/skills` | 事先建好的 skill 備案，live coding 時間不夠可直接複製使用 |
 | `phase/01-no-skill` | 無 skill 的 Todo App（對照組）|
 | `phase/02-with-skill` | 有 skill 的 Todo App |
 
 **Demo 流程（Live Coding）：**
 1. 全新乾淨專案，無 skill → 建 Todo App，展示問題
-2. 安裝 skill-creator，建 skill（時間不夠 → 從 `prepare/skill-creator` 複製 `.claude/skills/`）
+2. 安裝 skill-creator，建 skill（時間不夠 → 從 `prepare/skills` 複製 `.claude/skills/`）
 3. 同樣需求重做 → 對比差異
 
 ---
@@ -83,7 +83,7 @@ pnpm dev     # 同時啟動 server + client
 
 ## 準備工作 — 建立 Skills
 
-> Branch: `prepare/skill-creator`（備案，非 Demo 的一部分）
+> Branch: `prepare/skills`（備案，非 Demo 的一部分）
 
 ### Step 4 — 安裝 skill-creator
 
@@ -122,10 +122,10 @@ pnpm dev     # 同時啟動 server + client
 把 hono、hono-rpc、react-vite、drizzle 這四個 skill 移到目前專案的 .claude/skills/ 裡
 ```
 
-**時間不夠時的備案：** 直接從 `prepare/skill-creator` branch 複製 `.claude/skills/` 到目前專案
+**時間不夠時的備案：** 直接從 `prepare/skills` branch 複製 `.claude/skills/` 到目前專案
 
 ```bash
-git checkout prepare/skill-creator -- .claude/skills/
+git checkout prepare/skills -- .claude/skills/
 ```
 
 ---
