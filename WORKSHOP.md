@@ -66,12 +66,15 @@ Repo：https://github.com/recca0120/skills-20260314
 不要上網查，模擬 AI 只用訓練資料的情況：
 
 ```
-不要上網查任何資料，用你現有的知識幫我建一個
-Hono + Node.js + React + Vite + Hono RPC + Drizzle + SQLite 的 Todo App，
+不要上網查任何資料，用你現有的知識幫我建一個 Todo App：
+- 後端：Astro API routes
+- 前端：Vite + React
+- DB：Drizzle ORM + SQLite（@libsql/client）
+- 套件管理：pnpm
 功能：列出 todos、新增 todo、完成 / 刪除 todo
 ```
 
-> **為什麼這樣下指令：** 呼應簡報 Slide 4「AI 的知識有截止日」，展示沒有 skill 時 AI 用舊版 API 或過時寫法的真實狀況。
+> **為什麼這樣下指令：** 呼應簡報 Slide 4「AI 的知識有截止日」，展示沒有 skill 時 AI 用舊版 Astro API（例如 `output: 'server'`、`Response.json()` 等過時寫法）的真實狀況。
 
 ```bash
 cd todo-app
@@ -139,8 +142,11 @@ git checkout prepare/skills -- .claude/skills/
 同樣的需求，這次有 skill：
 
 ```
-幫我建一個 Hono + Node.js + React + Vite + Hono RPC + Drizzle + SQLite 的 Todo App，
-用 pnpm 管理套件，
+幫我建一個 Todo App：
+- 後端：Astro API routes
+- 前端：Vite + React
+- DB：Drizzle ORM + SQLite（@libsql/client）
+- 套件管理：pnpm
 功能：列出 todos、新增 todo、完成 / 刪除 todo
 ```
 
