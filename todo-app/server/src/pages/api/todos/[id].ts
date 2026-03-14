@@ -31,5 +31,5 @@ export const DELETE: APIRoute = async ({ params }) => {
     return Response.json({ error: 'Not found' }, { status: 404 })
   }
 
-  return new Response(null, { status: 204 })
+  return Response.json({ success: true })
 }
