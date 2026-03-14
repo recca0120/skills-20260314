@@ -1,0 +1,13 @@
+{
+  "name": "todo-app",
+  "type": "module",
+  "scripts": {
+    "setup": "pnpm install && pnpm --filter server db:push",
+    "dev": "concurrently \"pnpm --filter server dev\" \"pnpm --filter client dev\"",
+    "dev:server": "pnpm --filter server dev",
+    "dev:client": "pnpm --filter client dev"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  }
+}
