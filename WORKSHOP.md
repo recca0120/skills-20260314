@@ -64,7 +64,7 @@ gh repo create skills-20260314 --public --source=. --remote=origin --push
 
 > **為什麼這樣下指令：** 模擬「沒有 skill、沒有即時資訊」的最差情況。AI 的訓練資料有截止日，不上網查就會用舊版 API 或過時的寫法，正好呼應簡報 Slide 4 的核心問題。
 
-**結果：** 待執行
+**結果：** Todo App 建立完成，三個功能（列出、新增、完成/刪除）驗證 OK ✅
 
 ---
 
