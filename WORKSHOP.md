@@ -160,20 +160,41 @@ pnpm dev
 
 ## 講者點評台詞（Phase 01 跑完後）
 
-Phase 01 的 App 功能上沒問題，但打開程式碼就能看到問題。
+Phase 01 的 App 在 dev 模式下功能正常，但打開程式碼就能看到問題。
 
-**點 1 — `output: 'server'` 已移除（主打：AI 知識有截止日）**
+**核心敘事轉換：**
+> 重點不是「AI 犯了什麼錯」，而是「有 skill 時你不需要知道這些細節」。
+> Skill 幫你承擔認知負擔，不是讓 AI 變聰明，是讓你不需要那麼聰明。
 
-> 「你看這邊，`astro.config.mjs` 裡它加了 `output: 'server'`。這在 Astro v4 是必填的，但 v5、v6 這個設定已經不需要了，甚至在某些情況會造成問題。這就是沒有 skill 的結果 — 它用的是訓練資料裡的寫法，不是現在的寫法。」
+---
+
+**點 1 — `prerender = false`（主打：skill 幫你記住你不知道的細節）**
+
+> 「我問你，你知道 Astro v5 的 API routes 預設是靜態的嗎？要加 `prerender = false` 才會是動態 endpoint？我不知道。但你看有 skill 的版本，它自動加了。沒有 skill 的版本沒加。這就是差別 — 不是我比較厲害，是 skill 幫我記住了這個細節。你不需要知道這件事，skill 知道就夠了。」
+
+```ts
+// 無 skill（缺少，dev 能跑但 build 後 API 消失）
+export const GET: APIRoute = async () => { ... }
+
+// 有 skill（自動加上）
+export const prerender = false;  // ✅ skill 記住了，你不用記
+export const GET: APIRoute = async () => { ... }
+```
+
+---
+
+**點 2 — `output: 'server'`（主打：AI 用舊知識，skill 更新知識）**
+
+> 「這邊 `astro.config.mjs` 加了 `output: 'server'`。這在 Astro v4 是必填的，v5、v6 已經不需要了。AI 的訓練資料有截止日，它不知道這個版本變了。但 skill 在建立前有去查最新文件，所以有 skill 的版本沒有這行。」
 
 ```js
-// 無 skill（舊版 v4 寫法）
+// 無 skill（v4 舊寫法，AI 訓練資料裡的版本）
 export default defineConfig({
   output: 'server',  // ❌ v5/v6 已不需要
   adapter: node({ mode: 'standalone' }),
 })
 
-// 有 skill（正確寫法）
+// 有 skill（正確，skill 查了最新文件）
 export default defineConfig({
   adapter: node({ mode: 'standalone' }),
   security: { checkOrigin: false },
@@ -182,46 +203,15 @@ export default defineConfig({
 
 ---
 
-**點 2 — 缺少 `prerender = false`（主打：AI 跳過關鍵設定）**
+**點 3 — 刪除回傳 204（主打：skill 帶入設計決策）**
 
-> 「Astro v5 開始，API routes 預設是靜態的，必須明確加 `prerender = false` 才會變成動態 endpoint。沒加的話，build 完根本不會有這個 API。它沒加，因為它不知道 v5 有這個 breaking change。」
-
-```ts
-// 無 skill（缺少）
-export const GET: APIRoute = async () => { ... }
-
-// 有 skill（正確）
-export const prerender = false;  // ✅ 必須加
-export const GET: APIRoute = async () => { ... }
-```
-
----
-
-**點 3 — `Response.json()` 快捷寫法（主打：省事但不完整）**
-
-> 「`Response.json()` 是 Web 標準的快捷方法，但它不會自動帶 Content-Type。新版的正確做法是 `new Response(JSON.stringify(...), { headers })`，明確設定 Content-Type，行為更可預測。」
+> 「刪除成功它回傳 `{ success: true }`，這是很直覺的寫法，很多人包括我以前也這樣寫。RESTful 標準刪除應該回 204 No Content。這不是版本問題，是設計決策。沒有 skill，AI 跟你一樣憑直覺。有 skill，這個決策被記錄下來，每次都照做。」
 
 ```ts
-// 無 skill
-return Response.json(allTodos)
-
-// 有 skill
-return new Response(JSON.stringify(all), {
-  headers: { 'Content-Type': 'application/json' },
-})
-```
-
----
-
-**點 4 — 刪除回傳（主打：API 設計決策）**
-
-> 「刪除成功它回傳 `{ success: true }`，這是很多人的直覺寫法。但 RESTful 標準刪除應該回 204 No Content，不需要 body。這不是版本問題，是設計決策 — skill 把這個決策帶進來了。」
-
-```ts
-// 無 skill
+// 無 skill（直覺寫法）
 return Response.json({ success: true })
 
-// 有 skill
+// 有 skill（skill 記錄了這個設計決策）
 return new Response(null, { status: 204 })
 ```
 
