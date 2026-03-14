@@ -10,7 +10,7 @@ const app = new Hono()
     const allTodos = await db.select().from(todos).orderBy(todos.createdAt)
     return c.json(allTodos)
   })
-  .post('/', zValidator('json', z.object({ title: z.string().min(1) })), async (c) => {
+  .post('/', zValidator('json', z.object({ title: z.string().min(1).max(100) })), async (c) => {
     const { title } = c.req.valid('json')
     const [todo] = await db.insert(todos).values({ title }).returning()
     return c.json(todo, 201)
