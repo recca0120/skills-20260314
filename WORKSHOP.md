@@ -159,89 +159,82 @@ pnpm dev
 
 ## 講者點評台詞（Phase 01 跑完後）
 
-Phase 01 的 App 功能上沒問題，但打開程式碼就能看到問題。
+Phase 01 的 App 功能上可能跑不起來，但打開程式碼就能看到問題。
 
-**點 1 — Drizzle 初始化 API 版本（主打：AI 知識有截止日）**
+**點 1 — `output: 'server'`（主打：AI 知識有截止日）**
 
-> 「你看這邊，它用了舊版的 Drizzle 寫法，要先建 client 再傳進去。新版的 API 早就不用這樣了，直接一個 object 就搞定。功能一樣，但這就是沒有 skill 的結果 — 它用的是它訓練資料裡的版本，不是現在的版本。」
+> 「你看 astro.config.mjs，它加了 `output: 'server'`。這是 Astro v4 的寫法，v5 之後已經不需要了，只要在個別路由加 `export const prerender = false` 就好。功能上可能還能跑，但這就是沒有 skill 的結果 — 它用的是訓練資料裡的舊版本寫法。」
 
 ```ts
-// 無 skill（舊版）
-const client = createClient({ url: 'file:todos.db' })
-export const db = drizzle(client, { schema })
+// 無 skill（v4 舊寫法）
+export default defineConfig({
+  output: 'server',   // v5+ 不需要
+  adapter: node({ mode: 'standalone' }),
+})
 
-// 有 skill（新版）
-export const db = drizzle({
-  connection: { url: 'file:todos.db' },
-  schema,
+// 有 skill（v5+ 正確寫法）
+export default defineConfig({
+  adapter: node({ mode: 'standalone' }),
+  // 個別路由加 export const prerender = false 即可
 })
 ```
 
 ---
 
-**點 2 — 刪除回傳（主打：AI 跟你一樣用直覺寫）**
+**點 2 — `Response.json()` vs `new Response()`（主打：shorthand 的陷阱）**
 
-> 「這個我最喜歡。刪除成功它回傳 `{ success: true }`，這是很多人的直覺寫法，包括我以前也這樣寫。但 RESTful 標準刪除應該回 204 No Content，不需要 body。這不是版本問題，是設計問題 — 沒有 skill，它就跟你一樣憑直覺。」
+> 「這邊它用了 `Response.json()`，看起來很方便，但這個 shorthand 在某些環境下不支援，而且少了 `Content-Type` header。有 skill 的版本用的是標準寫法 `new Response(JSON.stringify(...), { headers })`，這才是正確且跨環境相容的做法。」
 
 ```ts
 // 無 skill
-return c.json({ success: true })
+return Response.json(allTodos)
 
 // 有 skill
-return c.body(null, 204)
+return new Response(JSON.stringify(all), {
+  headers: { 'Content-Type': 'application/json' },
+})
 ```
 
 ---
 
-**點 3 — PATCH 路徑語意（主打：skill 連設計決策都影響）**
+**點 3 — 少了 `prerender = false`（主打：忘了就壞掉）**
 
-> 「PATCH `/:id` 跟 PATCH `/:id/done` 功能一樣，但語意差很多。前者你不知道在 patch 什麼，後者一看就知道是『標記為完成』。這個告訴你，skill 不只是解決版本問題，連 API 設計的決策都會帶進來。」
+> 「更嚴重的是這個。它沒有加 `export const prerender = false`，這代表 Astro 會把這個 API route 當成靜態頁面來處理，根本跑不動。這就是為什麼 phase/01 功能跑不起來。有 skill 的版本知道這件事，每個動態 route 都加了。」
 
 ```ts
-// 無 skill
-.patch('/:id', ...)
+// 無 skill — 沒有這行，動態 API 跑不起來
+// （什麼都沒有）
 
 // 有 skill
-.patch('/:id/done', ...)
+export const prerender = false;  // ✅ 必要
 ```
 
 ---
 
 ## Before / After 對比
 
+### `astro.config.mjs`
+
+| | 無 Skill | 有 Skill |
+|---|---|---|
+| output 模式 | `output: 'server'`（v4 舊寫法）| 不需要設定 |
+| CSRF | 未設定 | `security: { checkOrigin: false }` |
+
 ### Schema（`db/schema.ts`）
 
 | | 無 Skill | 有 Skill |
 |---|---|---|
-| import | `int`（簡寫）| `integer`（正確命名）|
-| 欄位宣告 | `int()` | `integer('id')`（明確帶欄位名）|
+| import | `int` | `integer`（正確命名）|
 | 完成狀態欄位 | `completed` | `done` |
-| `createdAt` 預設值 | JS `$defaultFn` | SQL `CURRENT_TIMESTAMP` |
+| `createdAt` default | `(datetime('now'))` | `CURRENT_TIMESTAMP` |
 
-### Routes（`todos.ts`）
-
-| | 無 Skill | 有 Skill |
-|---|---|---|
-| export 方式 | `export default app` | `export const todosRoute` |
-| 排序 | `orderBy(todos.createdAt)` | `orderBy(desc(...))` 新到舊 |
-| PATCH 路徑 | `/:id` | `/:id/done`（語意更清楚）|
-| 刪除回傳 | `{ success: true }` | `204 No Content`（RESTful）|
-| 錯誤處理 | 無 | 有 404 處理 |
-
-### Server（`index.ts`）
+### API Routes
 
 | | 無 Skill | 有 Skill |
 |---|---|---|
-| Logger | 無 | `hono/logger` middleware |
-| CORS | 寫死 `localhost:5173` | 通用 `/api/*` |
-| Port | 寫死 `3000` | 支援 `process.env.PORT` |
-
-### Drizzle API 版本
-
-| | 無 Skill | 有 Skill |
-|---|---|---|
-| 初始化 | `drizzle(client, { schema })` | `drizzle({ connection, schema })`（新版 API）|
-| Migration | `generate + migrate` | `db:push`（更簡潔）|
+| `prerender` | 沒有（動態 route 無法運作）| `export const prerender = false` |
+| 回傳方式 | `Response.json()` | `new Response(JSON.stringify(...), { headers })` |
+| 錯誤 status | `400` | `422`（語意更正確）|
 
 ---
 
@@ -256,8 +249,8 @@ return c.body(null, 204)
 > 「你覺得這兩個版本哪裡不一樣？為什麼有 skill 的版本長這樣？」
 
 重點讓觀眾看的三個地方：
-1. Drizzle 初始化 API 版本（舊版 vs 新版）
-2. 刪除回傳 `{ success: true }` vs `204 No Content`
-3. PATCH 路徑 `/:id` vs `/:id/done`
+1. `output: 'server'` — v4 舊寫法 vs v5+ 不需要
+2. `Response.json()` — shorthand vs 標準 `new Response`
+3. `prerender = false` — 沒加就壞掉
 
 **邊界：** 若觀眾硬要出題，限定在 Todo App 現有功能的小改動，不開放登入、多人協作等大型功能。
