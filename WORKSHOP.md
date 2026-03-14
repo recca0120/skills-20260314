@@ -24,12 +24,17 @@
 
 ## 技術棧
 
-**Hono + Node.js + pnpm + React + Vite + Hono RPC + Drizzle ORM + SQLite（@libsql/client）**
+**前端：Vite + React**
+**後端：Astro API routes（取代 Hono）**
+**DB：Drizzle ORM + SQLite（@libsql/client）**
 
 決策記錄：
-- Bun runtime → Node.js + pnpm（環境相容性更廣，參與者不需額外安裝 Bun）
+- Hono 後端 → Astro API routes：Astro 目前已是 v7，但 AI 訓練資料約在 v5，沒有 skill 就會用舊版語法，差異明顯
+- 選 Astro 的另一個原因：講者對 Astro 不熟，正好展示「skill 讓 AI 學會你不熟的技術」這個核心概念
+- Bun runtime → Node.js + pnpm（環境相容性更廣）
 - better-sqlite3 → @libsql/client（純 WASM，不需 native binding，Node 23 相容）
-- Bun 內建 SQLite → Drizzle ORM（簡報 Slide 12 明確列出，保持一致）
+
+> **舊版（Hono 架構）保留在 `archive/phase-01-hono` 和 `archive/phase-02-hono`**
 
 ---
 
