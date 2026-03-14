@@ -152,6 +152,56 @@ pnpm dev
 
 ---
 
+## 講者點評台詞（Phase 01 跑完後）
+
+Phase 01 的 App 功能上沒問題，但打開程式碼就能看到問題。
+
+**點 1 — Drizzle 初始化 API 版本（主打：AI 知識有截止日）**
+
+> 「你看這邊，它用了舊版的 Drizzle 寫法，要先建 client 再傳進去。新版的 API 早就不用這樣了，直接一個 object 就搞定。功能一樣，但這就是沒有 skill 的結果 — 它用的是它訓練資料裡的版本，不是現在的版本。」
+
+```ts
+// 無 skill（舊版）
+const client = createClient({ url: 'file:todos.db' })
+export const db = drizzle(client, { schema })
+
+// 有 skill（新版）
+export const db = drizzle({
+  connection: { url: 'file:todos.db' },
+  schema,
+})
+```
+
+---
+
+**點 2 — 刪除回傳（主打：AI 跟你一樣用直覺寫）**
+
+> 「這個我最喜歡。刪除成功它回傳 `{ success: true }`，這是很多人的直覺寫法，包括我以前也這樣寫。但 RESTful 標準刪除應該回 204 No Content，不需要 body。這不是版本問題，是設計問題 — 沒有 skill，它就跟你一樣憑直覺。」
+
+```ts
+// 無 skill
+return c.json({ success: true })
+
+// 有 skill
+return c.body(null, 204)
+```
+
+---
+
+**點 3 — PATCH 路徑語意（主打：skill 連設計決策都影響）**
+
+> 「PATCH `/:id` 跟 PATCH `/:id/done` 功能一樣，但語意差很多。前者你不知道在 patch 什麼，後者一看就知道是『標記為完成』。這個告訴你，skill 不只是解決版本問題，連 API 設計的決策都會帶進來。」
+
+```ts
+// 無 skill
+.patch('/:id', ...)
+
+// 有 skill
+.patch('/:id/done', ...)
+```
+
+---
+
 ## Before / After 對比
 
 ### Schema（`db/schema.ts`）
