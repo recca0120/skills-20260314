@@ -240,27 +240,19 @@ return c.body(null, 204)
 
 ---
 
-## Step 8 — 聽眾出題
+## Step 8 — 聽眾互動
 
-**出題方向：讓 skill 的效果在現場發生**
+**方式：現場討論程式碼差異，而不是出題加功能**
 
-不是加功能，而是給一個容易踩雷的需求，讓觀眾親眼看到有 skill / 沒有 skill 的差異。
+實測發現 validation 這類基礎需求，有沒有 skill AI 都做得到，對比效果不明顯。
+直接打開 phase/01 和 phase/02 的程式碼，讓觀眾自己找差異，說服力更強。
 
-**示範題目：加 zod validation（title 不能空白、不能超過 100 字）**
+**討論引導：**
+> 「你覺得這兩個版本哪裡不一樣？為什麼有 skill 的版本長這樣？」
 
-```
-幫我在新增 todo 的 API 加上 validation：
-- title 不能空白
-- title 不能超過 100 字
-```
+重點讓觀眾看的三個地方：
+1. Drizzle 初始化 API 版本（舊版 vs 新版）
+2. 刪除回傳 `{ success: true }` vs `204 No Content`
+3. PATCH 路徑 `/:id` vs `/:id/done`
 
-**流程：**
-1. 切到 `phase/01-no-skill`，在沒有 skill 的環境下執行這個需求
-2. 切到 `phase/02-with-skill`，同樣的需求再跑一次
-3. 對比兩者的做法
-
-**預期差異：**
-- 無 skill → 可能手動 if 判斷，或用 zod 但沒有搭配 `zValidator` middleware
-- 有 skill → 正確使用 `zValidator('json', z.object(...))` 搭配 Hono 的 middleware 機制
-
-**邊界：** 只接受跟 Todo App 現有功能相關的需求，不開放登入、多人協作等大型功能。
+**邊界：** 若觀眾硬要出題，限定在 Todo App 現有功能的小改動，不開放登入、多人協作等大型功能。
